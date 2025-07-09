@@ -10,6 +10,9 @@ declare module '@mui/material/styles' {
 }
 
 export const lightTheme = createTheme({
+  cssVariables: {
+    colorSchemeSelector: 'data',
+  },
   palette: {
     mode: 'light',
     primary: {
@@ -71,6 +74,9 @@ export const lightTheme = createTheme({
 });
 
 export const darkTheme = createTheme({
+  cssVariables: {
+    colorSchemeSelector: 'data',
+  },
   palette: {
     mode: 'dark',
     primary: {

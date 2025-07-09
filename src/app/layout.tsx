@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from '../components/ThemeProvider';
-import { ThemeScript } from '../components/ThemeScript';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
+import InitColorSchemeScript from '@mui/material/InitColorSchemeScript';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,14 +18,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <head>
-        <ThemeScript />
-      </head>
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider>
-          {children}
-        </ThemeProvider>
+        <InitColorSchemeScript attribute="data" />
+        <AppRouterCacheProvider options={{ enableCssLayer: false }}>
+          <ThemeProvider>
+            {children}
+          </ThemeProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

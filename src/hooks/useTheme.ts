@@ -19,11 +19,17 @@ export function useTheme() {
     
     const resolved = initialTheme === 'system' ? systemTheme : initialTheme;
     setResolvedTheme(resolved);
+    
+    // Set the data attribute for MUI CSS variables
+    document.documentElement.setAttribute('data-color-scheme', resolved);
+    
     setMounted(true);
 
     const handleSystemThemeChange = (e: MediaQueryListEvent) => {
       if (themeMode === 'system') {
-        setResolvedTheme(e.matches ? 'dark' : 'light');
+        const newTheme = e.matches ? 'dark' : 'light';
+        setResolvedTheme(newTheme);
+        document.documentElement.setAttribute('data-color-scheme', newTheme);
       }
     };
 
@@ -35,12 +41,16 @@ export function useTheme() {
     setThemeMode(mode);
     localStorage.setItem(THEME_STORAGE_KEY, mode);
     
+    let newResolvedTheme: 'light' | 'dark';
     if (mode === 'system') {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-      setResolvedTheme(mediaQuery.matches ? 'dark' : 'light');
+      newResolvedTheme = mediaQuery.matches ? 'dark' : 'light';
     } else {
-      setResolvedTheme(mode);
+      newResolvedTheme = mode;
     }
+    
+    setResolvedTheme(newResolvedTheme);
+    document.documentElement.setAttribute('data-color-scheme', newResolvedTheme);
   };
 
   return {

@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext } from 'react';
 import { ThemeProvider as MUIThemeProvider, CssBaseline } from '@mui/material';
 import { lightTheme, darkTheme } from '../theme/theme';
 import { useTheme } from '../hooks/useTheme';
@@ -34,19 +34,9 @@ interface ThemeProviderProps {
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
   const themeHook = useTheme();
-  const { resolvedTheme, mounted } = themeHook;
+  const { resolvedTheme } = themeHook;
 
   const muiTheme = resolvedTheme === 'dark' ? darkTheme : lightTheme;
-
-  // Prevent hydration mismatch by not rendering until mounted
-  if (!mounted) {
-    return (
-      <MUIThemeProvider theme={lightTheme}>
-        <CssBaseline />
-        {children}
-      </MUIThemeProvider>
-    );
-  }
 
   return (
     <ThemeContext.Provider value={themeHook}>
